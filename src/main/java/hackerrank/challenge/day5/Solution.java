@@ -1,4 +1,4 @@
-package hackerrank.challenge.day5;
+package main.java.hackerrank.challenge.day5;
 
 import java.util.Scanner;
 

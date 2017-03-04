@@ -1,0 +1,31 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+jar {
+	baseName = 'hackerrank'
+	version = '0.0.1-SNAPSHOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+
+task execute(type:JavaExec) {
+// Change the main class name that you want to run
+	main = 'hackerrank.algorithms.ex1.Solution'
+	classpath = sourceSets.main.runtimeClasspath
+}
+
+/* Useful to execute the first time for downloading and installing the appropriate Gradle distribution and
+ runs the build against this downloaded distribution by ignoring if Gradle is pre-installed or not*/
+task wrapper (type: Wrapper) {
+	gradleVersion = '3.3'
+}
+

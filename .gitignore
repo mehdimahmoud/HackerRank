@@ -2,4 +2,8 @@
 /HackerRank.iml
 /out/
 HackerRank.iml
+HackerRank.ipr
+HackerRank.iws
 out/
+.gradle
+.build

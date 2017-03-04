@@ -1,1 +1,1 @@
-#HackerRank https://www.hackerrank.com
+#HackerRank https://www.main.java.hackerrank.com

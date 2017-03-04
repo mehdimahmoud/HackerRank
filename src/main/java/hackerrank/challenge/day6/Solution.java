@@ -1,4 +1,4 @@
-package hackerrank.challenge.day6;
+package main.java.hackerrank.challenge.day6;
 
 import java.util.Scanner;
 
