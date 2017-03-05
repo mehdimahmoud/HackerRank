@@ -19,7 +19,7 @@ repositories {
 
 task execute(type:JavaExec) {
 // Change the main class name that you want to run
-	main = 'hackerrank.algorithms.ex1.Solution'
+	main = 'hackerrank.algorithms.ex2.Solution'
 	classpath = sourceSets.main.runtimeClasspath
 }
 
