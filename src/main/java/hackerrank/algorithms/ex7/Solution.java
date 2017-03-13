@@ -59,7 +59,7 @@ public class Solution {
         Scanner in = new Scanner(System.in);
 
         // Solution in Java 8
-        int n = in.nextInt(); // number of strings to enter
+        int n = in.nextInt(); // number of integer strings
         List<String> unsorted = new ArrayList(); // Array of number Strings
 
         // Checks constraints
@@ -76,7 +76,8 @@ public class Solution {
 
                     unsorted.add(next);
 
-                    long sumDigit = unsorted.stream().mapToInt(s -> s.length()).sum(); // nb of string digits
+                    // Checks the number of all string digits
+                    long sumDigit = unsorted.stream().mapToInt(s -> s.length()).sum();
                     if (sumDigit < 1 || sumDigit > Math.pow(10, 6)) {
                         throw new IllegalArgumentException("The total number of digits across all strings should be between 1 and 10^6 inclusive. ");
                     }
