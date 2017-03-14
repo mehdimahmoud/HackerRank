@@ -1,58 +1,64 @@
-package hackerrank.algorithms.ex8;
+package hackerrank.algorithms.ex9;
 /**
  * Created by mmik on 04/03/2017.
- * source: https://www.hackerrank.com/contests/hourrank-18/challenges/wheres-the-marble
- * Jill and Bob are playing the following game:
+ * source: https://www.hackerrank.com/contests/w30/challenges/candy-replenishing-robot/submissions/code/1300894310
+ * Alice is hosting a party! The party lasts for  minutes, and she puts out a bowl of  candies at the beginning of the party. During each minute , a person comes to the bowl and removes  candies.
  * <p>
- * There are  cups on saucers arranged in a straight line. Each saucer is numbered sequentially from  to .
- * The game starts when Jill watches Bob place a marble inside the cup on saucer number .
- * Bob then takes  turns. In each turn, he swaps the cups on a pair of saucers numbered  and , where . The diagram below shows an example:
+ * Alice programs the following algorithm into her robot, Bob, to replenish the candy throughout the party:
+ * <p>
+ * If the party is ending (i.e., it's time ), do not refill the bowl.
+ * If the bowl contains  candies at the end of minute  and , add  candies to the bowl.
+ * For example, if , , and , then the candy bowl looks like this throughout the party:
+ * <p>
  * image
  * <p>
- * After Bob completes all his turns, Jill chooses an integer from  to  denoting the saucer where she think the cup with the marble is located.
- * Given  and Bob's sequence of moves, print the saucer number denoting the marble's location at the end of the game.
+ * Note that Bob doesn't replenish the bowl at the party's end, so a total of  candies were added during the party.
+ * <p>
+ * Given , , and the number of candies removed from the bowl during each minute, print the total number of new candies Bob adds to the bowl during the party.
  * <p>
  * Input Format
  * <p>
- * The first line contains two space-separated integers describing the respective values of  (the marble's initial location) and  (Bob's number of turns).
- * Each line  of the  subsequent lines contains two space-separated integers,  and , describing the saucer numbers for the cups Bob swaps in his  move.
+ * The first line contains two space-separated integers describing the respective values of  and .
+ * The second line contains  space-separated integers describing the respective values of .
  * <p>
  * Constraints
  * <p>
+ * , where  is the number of candies in the bowl at the start of minute .
  * Output Format
  * <p>
- * Print an integer denoting the saucer number of the cup containing the marble at the end of the game.
+ * Print the total number of new candies Bob adds to the bowl during the party.
  * <p>
  * Sample Input 0
  * <p>
- * 5 3
- * 2 5
- * 7 10
- * 2 9
+ * 8 4
+ * 3 1 7 5
  * Sample Output 0
  * <p>
- * 9
+ * 11
  * Explanation 0
  * <p>
- * Bob places the marble in the cup on saucer  and performs the following sequence of  moves:
- * <p>
  * image
  * <p>
- * Swap the cups in positions  and , so the marble is now in the cup on saucer .
+ * The party starts out with  candies in the bowl and the candies removed during each second are denoted by .
+ * We break down each minute of the party like so:
  * <p>
- * image
+ * <ol>
+ * <li>Remove c0=3 candies, so 8-3=5 candies remain.</li>
+ * <li>Remove c1=1 candies, so 5-1=4 candies remain. Because the party is still going on, Bob refills the bowl by adding 4
+ * new candies so it again contains 4+4=8 candies.</li>
+ * <li>Remove c2=7 candies, so 8-7=1 candy remains. Because the party is still going on, Bob refills the bowl by adding 7
+ * new candies so it again contains 1+7=8 candies.</li>
+ * <li>Remove c3=5 candies, so 8-5=3 candies remain. Because the party is ending during this minute, Bob does not refill
+ * the bowl.</li>
+ * </ol>
  * <p>
- * Swap the cups in positions  and ; neither of these cups currently contains the marble, so the marble is still in the cup on saucer .
- * <p>
- * image
- * <p>
- * Swap the cups in positions  and , so the marble is now in the cup on saucer .
- * <p>
- * image
- * Because the marble is in the cup on saucer  at the end of the game, we print  as our answer.
+ * We then print the total number of candies added during the party, which is 4+7=11.
  */
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class Solution {
 
@@ -60,15 +66,52 @@ public class Solution {
         Scanner in = new Scanner(System.in);
 
         // Solution in Java 8
-        int m = in.nextInt(); // marble's location
-        int n = in.nextInt(); // number of turns
+        int n = in.nextInt(); // number of candies in the bowl at the starting of party
+        int t = in.nextInt(); // last of party in minutes
+        List<Integer> c = new ArrayList<>(); // number of candies removed
 
         // Checks constraints
+        if(n<5 || n>100)
+            throw new IllegalArgumentException("The number of candies should be between 5 and 100 candies.");
+        if(t<1 || t>100)
+            throw new IllegalArgumentException("The last of the party should be between 1 and 100 mn.");
+
 
         // Gets input
+        IntStream.range(0,t)
+                .forEach(i->
+                {
+                    int ci = in.nextInt();
+                    if(ci<1 || ci>n)
+                        throw new IllegalArgumentException("The number of candies to remove should be between 1 and "+ n +" candies.");
+
+                    c.add(ci);
+                });
 
 
-        // Lets sort the list
+
+        // Gets output
+        int ti=1;
+        int bi=n; // number of candies remains
+        int cAdded=0; // number of candies added by Rob;
+        List<Integer> listAdded = new ArrayList<>();
+
+        for(int ci : c){
+//            System.out.println("ti="+ti);
+            if(ci>bi)
+               throw new IllegalArgumentException("The candies to remove should not be greater than what it remains in the bowl.");
+
+            bi = bi-ci; // nb remaining candies
+
+            if(ti<t && bi<5){
+                cAdded = n-bi;
+                listAdded.add(cAdded);
+                bi=n; // or bi=bi+cAdded;
+//                System.out.println(listAdded);
+            }
+            ti++;
+        }
+        System.out.println(listAdded.stream().mapToInt(cAdd->cAdd).sum());
 
     }
 }
