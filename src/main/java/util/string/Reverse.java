@@ -40,7 +40,7 @@ public class Reverse {
         return reverseRecursion(s.substring(1, s.length())) + s.charAt(0);
     }
 
-    // Solution5 ; Use StringBuilder without reverse method
+    // Solution5: Use StringBuilder without reverse method
     public static String reverseIt(String source) {
         int i, len = source.length();
         StringBuilder dest = new StringBuilder(len);
