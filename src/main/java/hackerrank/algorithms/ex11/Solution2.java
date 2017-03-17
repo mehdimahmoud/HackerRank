@@ -63,68 +63,67 @@ package hackerrank.algorithms.ex11;
  * The length of the password is . We can list all letters  except  for our list of possible passwords.
  */
 
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
-public class Solution {
+public class Solution2 {
 
-    // Solution 2 in Java8
+    static List<String> vowels = new LinkedList<>(Arrays.asList("a", "e", "i", "o", "u"));
+    static List<String> consnts = new LinkedList<>(Arrays.asList("b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+            "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"));
+    static List<String> hacks = new LinkedList<>();
+    static int n = 0;
+
+    // Solution 1 in Java7
     public static void main(String[] args) {
+        long startMilli = System.currentTimeMillis();
+        long startNano = System.nanoTime();
         Scanner in = new Scanner(System.in);
-
-        // Gets Inputs
-        int n = in.nextInt(); // length of the password
-        // Constraints
-        if (n < 0 || n > 6)
+        // Gets Inputs and Constraints
+        n = in.nextInt(); // length of the password
+        if (n < 1 || n > 6)
             throw new IllegalArgumentException("The length of the password should be between 1 and 6.");
         // Gets output
-        List<String> vowels = new LinkedList<>(Arrays.asList("a", "e", "i", "o", "u"));
-        List<String> consnts = new LinkedList<>(Arrays.asList("b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
-                "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"));
-        List<String> hacks = new LinkedList<>();
-
-        System.out.println(vowels.size());
-        System.out.println(consnts.size());
-
-//        repeat(vowels);
-//        repeat(consnts);
-        String s = "abecab";
-//         String s1 = "zubeca";
-         String s1 = "zu";
-
-        long start = 0, end = 0, deltaTime = 0;
-
-        // zu 48198 abecab 39506 zubeca 50963
-        // 293926
-       /* start = System.nanoTime();
-        System.out.println(reverse(s));
-        System.out.println(reverse(s1));
-        end = System.nanoTime();
-        deltaTime = end - start;
-        System.out.println(String.format("reverse - deltaTime = %d", deltaTime) + "\n");*/
-
-
-
+        generatePasswords(n);
+        System.out.println("hacks size = "+hacks.size());
+        long endMilli = System.currentTimeMillis();
+        long endNano = System.nanoTime();
+        System.out.println("Time execution in milliSec = "+(endMilli-startMilli));
+        System.out.println("Time execution in nanoSec = "+(endNano-startNano));
     }
 
-    public String inverse(String s){
-        if(s.length()%2==0)
-            ;
-        return "";
-    }
+    private static void generatePasswords(int n) {repeat(n, "");}
 
-    private static void repeat(List<String> list) {
-        for (String c : list) {
-            System.out.println(c);
+    private static String repeat(int i, String s) {
+        List<String> listLetters = new LinkedList<>();
+        // Special Processing for n=1
+        if(n==1) {
+            listLetters.addAll(0,vowels);
+            listLetters.addAll(vowels.size(),consnts);
+        }else if (i % 2 == 0) listLetters = vowels;
+              else listLetters = consnts;
+
+        for (String c : listLetters) {
+            String pwd = "";
+            if(i>1) s = s.concat(c);
+            else if(i==1) {
+                pwd = s.concat(c);
+                System.out.println(pwd);  hacks.add(pwd);
+                if(pwd.length()>1 && !pwd.equals(reverse(pwd))) {
+                    System.out.println(reverse(pwd)); hacks.add(reverse(pwd));
+                }
+            }
+            i--;
+            if(i>0) { // i = [1,n]
+                s = repeat(i,s);
+            }else i=0;
+            if(i>=1) s = s.substring(0,(s.length()-1));
+            i++;
         }
+        return s;
     }
-
-    private static void hackPassword() {
-
-    }
-
 
     public static String reverse(String input) {
         char[] in = input.toCharArray();
@@ -140,7 +139,4 @@ public class Solution {
         }
         return new String(in);
     }
-
-
-
 }
