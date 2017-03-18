@@ -63,9 +63,10 @@ package hackerrank.algorithms.ex11;
  * The length of the password is . We can list all letters  except  for our list of possible passwords.
  */
 
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Solution {
 
@@ -76,7 +77,7 @@ public class Solution {
         // Gets Inputs
         int n = in.nextInt(); // length of the password
         // Constraints
-        if (n < 0 || n > 6)
+        if (n < 1 || n > 6)
             throw new IllegalArgumentException("The length of the password should be between 1 and 6.");
         // Gets output
         List<String> vowels = new LinkedList<>(Arrays.asList("a", "e", "i", "o", "u"));
@@ -87,9 +88,31 @@ public class Solution {
         System.out.println(vowels.size());
         System.out.println(consnts.size());
 
-        repeat(vowels);
-        repeat(consnts);
+//        repeat(vowels);
+//        repeat(consnts);
+        String s = "abecab";
+//         String s1 = "zubeca";
+         String s1 = "zu";
 
+        long start = 0, end = 0, deltaTime = 0;
+
+        // zu 48198 abecab 39506 zubeca 50963
+        // 293926
+       /* start = System.nanoTime();
+        System.out.println(reverse(s));
+        System.out.println(reverse(s1));
+        end = System.nanoTime();
+        deltaTime = end - start;
+        System.out.println(String.format("reverse - deltaTime = %d", deltaTime) + "\n");*/
+
+
+
+    }
+
+    public String inverse(String s){
+        if(s.length()%2==0)
+            ;
+        return "";
     }
 
     private static void repeat(List<String> list) {
@@ -98,7 +121,21 @@ public class Solution {
         }
     }
 
-    private static void hackPassword() {
-
+    public static String reverse(String input) {
+        char[] in = input.toCharArray();
+        int start = 0;
+        int end = in.length - 1;
+        char temp;
+        while (end > start) {
+            temp = in[start];
+            in[start] = in[end];
+            in[end] = temp;
+            end--;
+            start++;
+        }
+        return new String(in);
     }
+
+
+
 }

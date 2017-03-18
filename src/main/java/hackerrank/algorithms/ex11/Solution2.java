@@ -73,13 +73,13 @@ public class Solution2 {
     static List<String> vowels = new LinkedList<>(Arrays.asList("a", "e", "i", "o", "u"));
     static List<String> consnts = new LinkedList<>(Arrays.asList("b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
             "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"));
-    static List<String> hacks = new LinkedList<>();
+//    static List<String> hacks = new LinkedList<>();
     static int n = 0;
 
     // Solution 1 in Java7
     public static void main(String[] args) {
-        long startMilli = System.currentTimeMillis();
-        long startNano = System.nanoTime();
+//        long startMilli = System.currentTimeMillis();
+//        long startNano = System.nanoTime();
         Scanner in = new Scanner(System.in);
         // Gets Inputs and Constraints
         n = in.nextInt(); // length of the password
@@ -87,39 +87,65 @@ public class Solution2 {
             throw new IllegalArgumentException("The length of the password should be between 1 and 6.");
         // Gets output
         generatePasswords(n);
-        System.out.println("hacks size = "+hacks.size());
-        long endMilli = System.currentTimeMillis();
-        long endNano = System.nanoTime();
-        System.out.println("Time execution in milliSec = "+(endMilli-startMilli));
-        System.out.println("Time execution in nanoSec = "+(endNano-startNano));
+//        System.out.println("hacks size = " + hacks.size());
+//        long endMilli = System.currentTimeMillis();
+//        long endNano = System.nanoTime();
+//        System.out.println("Time execution in milliSec = " + (endMilli - startMilli));
+//        System.out.println("Time execution in nanoSec = " + (endNano - startNano));
     }
 
-    private static void generatePasswords(int n) {repeat(n, "");}
-
-    private static String repeat(int i, String s) {
+    private static void generatePasswords(int n) {
         List<String> listLetters = new LinkedList<>();
-        // Special Processing for n=1
-        if(n==1) {
-            listLetters.addAll(0,vowels);
-            listLetters.addAll(vowels.size(),consnts);
-        }else if (i % 2 == 0) listLetters = vowels;
-              else listLetters = consnts;
+        if (n == 1) {
+            listLetters.addAll(0, vowels);
+            listLetters.addAll(vowels.size(), consnts);
+            repeat(n, listLetters, "");
+        }
+        if (n > 1) {
+            if (n % 2 == 0) { // even pwd
+                repeat(n, vowels, "");
+            } else { // odd pwd
+                repeat(n, consnts, "");
+                repeat(n, vowels, "");
+            }
+        }
+    }
 
+    private static String repeat(int i, List<String> listLetters, String s) {
+
+        if (n % 2 == 0 && i < n) {
+            if (i % 2 == 0) // even column
+                listLetters = vowels;
+            else // odd column
+                listLetters = consnts;
+        } else if (i < n) {
+            if (listLetters.equals(vowels)) // even column
+                listLetters = consnts;
+            else if (listLetters.equals(consnts)){
+                // odd column
+                listLetters = vowels;
+//                System.out.println("listLetters = "+listLetters);
+            }
+        }
+
+//        System.out.println("i = ["+i+"] ; listLetters = "+listLetters);
         for (String c : listLetters) {
             String pwd = "";
-            if(i>1) s = s.concat(c);
-            else if(i==1) {
+            if (i > 1) s = s.concat(c);
+            else if (i == 1) {
                 pwd = s.concat(c);
-                System.out.println(pwd);  hacks.add(pwd);
-                if(pwd.length()>1 && !pwd.equals(reverse(pwd))) {
-                    System.out.println(reverse(pwd)); hacks.add(reverse(pwd));
+                System.out.println(pwd); // generated password
+//                hacks.add(pwd);
+                if (n % 2 == 0 && pwd.length() > 1 && !pwd.equals(reverse(pwd))) {
+                    System.out.println(reverse(pwd)); // generated reverse password
+//                    hacks.add(reverse(pwd));
                 }
             }
             i--;
-            if(i>0) { // i = [1,n]
-                s = repeat(i,s);
-            }else i=0;
-            if(i>=1) s = s.substring(0,(s.length()-1));
+            if (i > 0) { // i = [1,n]
+                s = repeat(i, listLetters, s);
+            } else i = 0;
+            if (i >= 1) s = s.substring(0, (s.length() - 1));
             i++;
         }
         return s;
