@@ -103,15 +103,7 @@ public class Solution {
         long endNano = System.nanoTime();
         System.out.println("Time execution in milliSec = " + (endMilli - startMilli));
         System.out.println("Time execution in nanoSec = " + (endNano - startNano));
-        /*
-        6 2
-10 15
-12 17
-16 18
-18 13
-30 10
-32 1
-         */
+
     }
 
     private int delta(int x_i, int x_j){
